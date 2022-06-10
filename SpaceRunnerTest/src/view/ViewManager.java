@@ -19,6 +19,7 @@ public class ViewManager {
 		mainScene = new Scene(mainPane, WIDTH, HEIGHT);
 		mainStage = new Stage();
 		mainStage.setScene(mainScene);
+		createButtons();
 	}
 	
 	public Stage getMainStage() {

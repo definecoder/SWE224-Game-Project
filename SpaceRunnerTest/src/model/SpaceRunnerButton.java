@@ -22,6 +22,7 @@ public class SpaceRunnerButton extends Button{
 		setPrefWidth(190);
 		setPrefHeight(49);
 		setStyle(BUTTON_FREE_STYLE);
+		initializeButtonListeners();
 	}
 	
 	public void setButtonFont() {
