@@ -1,7 +1,12 @@
 package view;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
 import javafx.stage.Stage;
 import model.SpaceRunnerButton;
 
@@ -20,6 +25,7 @@ public class ViewManager {
 		mainStage = new Stage();
 		mainStage.setScene(mainScene);
 		createButtons();
+		createBackground();
 	}
 	
 	public Stage getMainStage() {
@@ -27,7 +33,18 @@ public class ViewManager {
 	}
 	
 	private void createButtons() {
-		SpaceRunnerButton button = new SpaceRunnerButton("Click ME!");
+		SpaceRunnerButton button = new SpaceRunnerButton("TAWHID");
 		mainPane.getChildren().add(button);
+		
+		button.setLayoutX(300);
+		button.setLayoutY(300);
+	}
+	
+	private void createBackground() {
+		
+		Image backgroundImage = new Image("view/resources/purpleBackground.png", 256, 256, false, true);
+		BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
+		mainPane.setBackground(new Background(background));
+		
 	}
 }
