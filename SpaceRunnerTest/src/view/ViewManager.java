@@ -1,5 +1,8 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -12,12 +15,17 @@ import model.SpaceRunnerButton;
 
 public class ViewManager {
 	
-	private static final int HEIGHT = 600;
-	private static final int WIDTH = 800;
+	private static final int HEIGHT = 768;
+	private static final int WIDTH = 1024;
 	
 	private AnchorPane mainPane;
 	private Scene mainScene;
 	private Stage mainStage;
+	
+	private final static int MENU_BUTTON_START_X = 100;
+	private final static int MENU_BUTTON_START_Y = 150;
+	
+	List < SpaceRunnerButton > menuButtons;
 	
 	public ViewManager() {
 		mainPane = new AnchorPane();
@@ -33,11 +41,21 @@ public class ViewManager {
 	}
 	
 	private void createButtons() {
-		SpaceRunnerButton button = new SpaceRunnerButton("TAWHID");
-		mainPane.getChildren().add(button);
+		menuButtons = new ArrayList < SpaceRunnerButton >();
+		addMenuButton("PLAY");
+		addMenuButton("SCORES");
+		addMenuButton("HELP");
+		addMenuButton("CREDITS");
+		addMenuButton("EXIT");
 		
-		button.setLayoutX(300);
-		button.setLayoutY(300);
+	}
+	
+	private void addMenuButton(String buttonTitle) {
+		SpaceRunnerButton button = new SpaceRunnerButton(buttonTitle);
+		button.setLayoutX(MENU_BUTTON_START_X);
+		button.setLayoutY(MENU_BUTTON_START_Y + menuButtons.size() * 100);
+		menuButtons.add(button);
+		mainPane.getChildren().add(button);
 	}
 	
 	private void createBackground() {
