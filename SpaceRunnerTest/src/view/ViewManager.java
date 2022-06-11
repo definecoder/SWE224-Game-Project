@@ -143,6 +143,7 @@ public class ViewManager {
 		SpaceRunnerButton button = new SpaceRunnerButton("START");
 		button.setLayoutX(350);
 		button.setLayoutY(300);
+<<<<<<< HEAD
 		
 		button.setOnAction(new EventHandler <ActionEvent>(){
 			
@@ -156,6 +157,8 @@ public class ViewManager {
 			
 		});
 		
+=======
+>>>>>>> f0be56144c17c6280750a3389ccb66755e3fa7ae
 		return button;
 	}
 	

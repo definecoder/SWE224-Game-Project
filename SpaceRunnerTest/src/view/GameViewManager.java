@@ -1,14 +1,22 @@
 package view;
 
+<<<<<<< HEAD
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+=======
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+>>>>>>> f0be56144c17c6280750a3389ccb66755e3fa7ae
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+<<<<<<< HEAD
 import model.SHIP;
+=======
+>>>>>>> f0be56144c17c6280750a3389ccb66755e3fa7ae
 
 public class GameViewManager {
 	
@@ -19,6 +27,7 @@ public class GameViewManager {
 	private Scene gameScene;
 	private Stage gameStage;
 	
+<<<<<<< HEAD
 	private Stage menuStage;
 	private ImageView ship;
 	
@@ -27,6 +36,8 @@ public class GameViewManager {
 	private int angle;
 	private AnimationTimer gameTimer;
 	
+=======
+>>>>>>> f0be56144c17c6280750a3389ccb66755e3fa7ae
 	public GameViewManager() {
 		initializaeStage();
 		createKeyListeners();
@@ -39,9 +50,15 @@ public class GameViewManager {
 			@Override
 			public void handle(KeyEvent event) {
 				if(event.getCode() == KeyCode.RIGHT) {
+<<<<<<< HEAD
 					isRightKeyPressed = true;
 				} else if(event.getCode() == KeyCode.LEFT) {
 					isLeftKeyPressed = true;
+=======
+					
+				} else if(event.getCode() == KeyCode.LEFT) {
+					
+>>>>>>> f0be56144c17c6280750a3389ccb66755e3fa7ae
 				}
 				
 			}
@@ -53,9 +70,15 @@ public class GameViewManager {
 			@Override
 			public void handle(KeyEvent event) {
 				if(event.getCode() == KeyCode.RIGHT) {
+<<<<<<< HEAD
 					isRightKeyPressed =false;
 				} else if(event.getCode() == KeyCode.LEFT) {
 					isLeftKeyPressed = false;
+=======
+					
+				} else if(event.getCode() == KeyCode.LEFT) {
+					
+>>>>>>> f0be56144c17c6280750a3389ccb66755e3fa7ae
 				}
 				
 			}
@@ -70,6 +93,7 @@ public class GameViewManager {
 		gameStage = new Stage();
 		gameStage.setScene(gameScene);
 	}
+<<<<<<< HEAD
 	
 	public void createNewGame(Stage menuStage, SHIP chosenShip) {
 		this.menuStage = menuStage;
@@ -116,4 +140,6 @@ public class GameViewManager {
 			ship.setRotate(angle);
 		}
 	}
+=======
+>>>>>>> f0be56144c17c6280750a3389ccb66755e3fa7ae
 }
