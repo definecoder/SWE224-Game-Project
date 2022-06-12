@@ -5,6 +5,7 @@ import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -211,6 +212,10 @@ public class GameViewManager {
 	
 	public void createNewGame(Stage menuStage, SHIP chosenShip) {
 		this.menuStage = menuStage;
+		this.gameStage.setTitle("Space Runner");
+		Image gameIcon = new Image(chosenShip.getUrl());
+		this.gameStage.getIcons().add(gameIcon);
+		this.gameStage.setResizable(false);
 		createBackground();
 		createShip(chosenShip);
 		createGameElements(chosenShip);
