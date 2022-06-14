@@ -280,8 +280,6 @@ public class GameViewManager {
 				
 				k = (k+1) % 500;
 				
-				System.out.println(k); // this will be deleted
-				
 				moveBackground();
 				moveGameElements();
 				checkIfElementsAreBehindTheShipAndRelocate();
@@ -293,8 +291,9 @@ public class GameViewManager {
 				if(k == 0) showLight(laserX, laserY);
 				if(k == 100) hideLight();
 				if(k == 400) {
-					laserX = randomPositionGenerator.nextInt(GAME_WIDTH); 
-					laserY = randomPositionGenerator.nextInt(GAME_HEIGHT);
+					// keeping the laser more towards the centre
+					laserX = 100 + randomPositionGenerator.nextInt(GAME_WIDTH - 200);  // 600
+					laserY = 100 + randomPositionGenerator.nextInt(GAME_HEIGHT - 200); // 800
 					showCaution(laserX, laserY);
 				}
 				
