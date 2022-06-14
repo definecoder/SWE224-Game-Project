@@ -375,7 +375,9 @@ public class GameViewManager {
 		bullet.setLayoutX(ship.getLayoutX()+SHIP_RADIUS+15);
 		bullet.setLayoutY(ship.getLayoutY()-SHIP_RADIUS-20);
 		
+		 
 		bulletAngle = curAngle;
+		bullet.setRotate(bulletAngle);
 		
 	}
 	
