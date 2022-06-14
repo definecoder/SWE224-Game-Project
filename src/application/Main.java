@@ -1,20 +1,22 @@
 package application;
 	
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import view.ViewManager;
 
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
+			ViewManager manager = new ViewManager();
+			primaryStage = manager.getMainStage();
+			primaryStage.setTitle("Spacer Runner");
+			Image gameIcon = new Image("model/resources/gameIcon.png");
+			primaryStage.getIcons().add(gameIcon);
 			primaryStage.show();
+			//primaryStage.setResizable(false);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
