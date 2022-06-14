@@ -34,8 +34,11 @@ public class GameViewManager {
 	private boolean isRightKeyPressed;
 	private boolean isUpKeyPressed;
 	private boolean isDownKeyPressed;
+	private boolean isSpacePressed;
+	
 	
 	private int angle;
+	private int bulletAngle;
 	
 	private AnimationTimer gameTimer;
 	
@@ -47,6 +50,8 @@ public class GameViewManager {
 	private static final String HORIZONTAL_LASER = "view/resources/laserHorizonotal.png";
 	private static final String VERTICAL_LASER = "view/resources/laserVertical.png";
 	private static final String LIGHT_IMAGE = "view/resources/bolt_gold.png";
+	private static final String BULLET_IMAGE = "view/resources/bullet.png";
+	
 	
 	private ImageView[] brownMeteors;
 	private ImageView[] greyMeteors;
@@ -57,6 +62,8 @@ public class GameViewManager {
 	private ImageView light1, light2;
 	private ImageView horizontalLaser;
 	private ImageView verticalLaser;
+	private ImageView bullet;
+	
 	
 	private SmallInfoLabel pointsLabel;
 	private ImageView[] playerLifes;
@@ -95,6 +102,9 @@ public class GameViewManager {
 				else if(event.getCode() == KeyCode.DOWN) {
 					isDownKeyPressed = true;
 				}
+				if(event.getCode() == KeyCode.SPACE) {
+					isSpacePressed = true;
+				}
 			}
 		});
 		
@@ -113,6 +123,9 @@ public class GameViewManager {
 				}
 				else if(event.getCode() == KeyCode.DOWN) {
 					isDownKeyPressed = false;
+				}
+				if(event.getCode() == KeyCode.SPACE) {
+					isSpacePressed = false;
 				}
 			}
 			
@@ -148,6 +161,7 @@ public class GameViewManager {
 		verticalLaser = new ImageView(VERTICAL_LASER);
 		light1 = new ImageView(LIGHT_IMAGE);
 		light2 = new ImageView(LIGHT_IMAGE);
+		bullet = new ImageView(BULLET_IMAGE);
 		
 		
 	
@@ -155,12 +169,16 @@ public class GameViewManager {
 		gamePane.getChildren().add(verticalLaser);
 		gamePane.getChildren().add(light1);
 		gamePane.getChildren().add(light2);
+		gamePane.getChildren().add(bullet);
+		
+		
 		
 		
 		horizontalLaser.setVisible(false);
 		verticalLaser.setVisible(false);
 		light1.setVisible(false);
 		light2.setVisible(false);
+		bullet.setVisible(false);
 		
 		
 		pointsLabel = new SmallInfoLabel("POINTS : 00");
@@ -203,9 +221,10 @@ public class GameViewManager {
 		
 	}
 	
+	
+	
 	private void moveGameElements() {
-		
-		
+	
 		
 		for(int i = 0; i < stars.length; i++) {
 			stars[i].setLayoutY(stars[i].getLayoutY()+ 5);
@@ -288,6 +307,14 @@ public class GameViewManager {
 				checkIfVerticalLaserCollided();
 				moveShip();
 				
+				if(isSpacePressed) {
+					shootBullet(angle);
+				}
+				if(bullet.isVisible()) {
+					moveBullet();
+				}
+
+				
 				if(k == 0) showLight(laserX, laserY);
 				if(k == 100) hideLight();
 				if(k == 400) {
@@ -341,6 +368,32 @@ public class GameViewManager {
 	private void showVerticalLaser(int laserX) {
 		verticalLaser.setVisible(true);
 		setVerticalLaserPosition(verticalLaser, laserX);
+	}
+	
+	private void shootBullet(int curAngle) {
+		bullet.setVisible(true);
+		bullet.setLayoutX(ship.getLayoutX()+SHIP_RADIUS+15);
+		bullet.setLayoutY(ship.getLayoutY()-SHIP_RADIUS-20);
+		
+		bulletAngle = curAngle;
+		
+	}
+	
+	private void moveBullet() {
+	
+		
+		double c = -bullet.getLayoutY() - Math.tan(Math.toRadians(bulletAngle))*bullet.getLayoutX();
+		
+		double y = bullet.getLayoutY()-10;
+		
+		double x = bullet.getLayoutX();
+		
+		if(bulletAngle != 0) x = (-y-c)/Math.tan(Math.toRadians(bulletAngle));
+	
+		bullet.setLayoutX(x);
+		bullet.setLayoutY(y);
+		
+		
 	}
 	
 	
