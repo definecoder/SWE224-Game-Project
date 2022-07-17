@@ -1,6 +1,7 @@
 package view;
 
 
+import java.io.File;
 import java.util.Random;
 
 import javax.imageio.event.IIOReadWarningListener;
@@ -15,6 +16,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.SHIP;
 import model.SmallInfoLabel;
@@ -77,12 +80,38 @@ public class GameViewManager {
 	private final static int SHIP_RADIUS = 27;
 	private final static int METEOR_RADIUS = 20;
 	
+	Media gameBgMusic, gameWarningSFX, gamePointSFX, gameCollisionSFX;
+	MediaPlayer gameMusicPlayer, gameWarningSFXPlayer, gamePointSFXPlayer, menuMusicPlayer, gameCollisionSFXPlayer;
 	
+	String GAME_MUSIC_PATH = "src/view/resources/gamebgtest.mp3";
+	String GAME_WARNING_PATH = "src/view/resources/alarm-small.mp3";
+	String GAME_POINT_PATH = "src/view/resources/point.mp3";
+	String GAME_COLLISION_PATH = "src/view/resources/collision.mp3";
 	
-	public GameViewManager() {
+	public GameViewManager(MediaPlayer menubgMusic) {
 		initializeStage();
 		createKeyListeners();
+		initMusicSFX(menubgMusic);
 		randomPositionGenerator = new Random();
+	}
+	
+	private void initMusicSFX(MediaPlayer menubgMusic) {
+		
+		menuMusicPlayer = menubgMusic;
+			
+		gameBgMusic = new Media(new File(GAME_MUSIC_PATH).toURI().toString());  
+        gameMusicPlayer = new MediaPlayer(gameBgMusic);  
+        gameMusicPlayer.setAutoPlay(true);
+
+     	gameWarningSFX = new Media(new File(GAME_WARNING_PATH).toURI().toString());  
+     	gameWarningSFXPlayer = new MediaPlayer(gameWarningSFX); 
+     	
+     	gamePointSFX = new Media(new File(GAME_POINT_PATH).toURI().toString());  
+     	gamePointSFXPlayer = new MediaPlayer(gamePointSFX); 
+     	
+     	gameCollisionSFX = new Media(new File(GAME_COLLISION_PATH).toURI().toString());
+     	gameCollisionSFXPlayer = new MediaPlayer(gameCollisionSFX);
+        
 	}
 
 	private void createKeyListeners() {
@@ -332,6 +361,10 @@ public class GameViewManager {
 	}
 	
 	private void showCaution(int laserX, int laserY) {
+		
+		gameWarningSFXPlayer.play();
+     	gameWarningSFXPlayer = new MediaPlayer(gameWarningSFX);
+		
 		light1.setVisible(true);
 		light1.setLayoutX(laserX);
 		light1.setLayoutY(10);
@@ -344,6 +377,7 @@ public class GameViewManager {
 
 	
 	private void hideLight() {
+		
 		setHorizontalLaserPosition(horizontalLaser, -100);
 		setVerticalLaserPosition(verticalLaser, -100);
 		
@@ -508,6 +542,8 @@ public class GameViewManager {
 			if(SHIP_RADIUS + STAR_RADIUS > calculateDistance(ship.getLayoutX()+49, ship.getLayoutY() + 37, stars[i].getLayoutX()+15, stars[i].getLayoutY()+15)) {
 				setNewElementPos(stars[i]);
 				points++;
+				gamePointSFXPlayer.play();
+				gamePointSFXPlayer = new MediaPlayer(gamePointSFX);
 				String textToSet = "POINTS: ";
 				if(points < 10) {
 					textToSet = textToSet + "0";
@@ -537,9 +573,14 @@ public class GameViewManager {
 		gamePane.getChildren().remove(playerLifes[playerLife]);
 		playerLife--;
 		
+		gameCollisionSFXPlayer.play();
+		gameCollisionSFXPlayer = new MediaPlayer(gameCollisionSFX);
+		
 		if(playerLife < 0) {
 			gameStage.close();
 			gameTimer.stop();
+			gameMusicPlayer.stop();
+			ViewManager.initMusicSFX();
 			menuStage.show();
 		}
 	}

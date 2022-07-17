@@ -1,6 +1,7 @@
 package view;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.scene.media.*;
 import model.InfoLabel;
 import model.SHIP;
 import model.ShipPicker;
@@ -50,6 +52,12 @@ public class ViewManager {
 	
 	private SHIP choosenShip; 
 	
+	static Media menuBgMusic, menuSFX;
+	static MediaPlayer menuMusicPlayer, menuSFXPlayer;
+	
+	static String MENU_MUSIC_PATH = "src/view/resources/menuBgMusic.mp3";
+	static String BUTTON_CLICK_PATH = "src/view/resources/click1.mp3";
+	
 	public ViewManager() {
 		mainPane = new AnchorPane();
 		mainScene = new Scene(mainPane, WIDTH, HEIGHT);
@@ -60,6 +68,21 @@ public class ViewManager {
 		createButtons();
 		createLogo();
 		createBackground();
+		initMusicSFX();
+	}
+	
+	public static void initMusicSFX() {
+		
+		// initiating menu background music player
+		menuBgMusic = new Media(new File(MENU_MUSIC_PATH).toURI().toString());  
+        menuMusicPlayer = new MediaPlayer(menuBgMusic);  
+        menuMusicPlayer.setAutoPlay(true);
+
+        // initiating menu background music player
+     	menuSFX = new Media(new File(BUTTON_CLICK_PATH).toURI().toString());  
+        menuSFXPlayer = new MediaPlayer(menuSFX);  
+                
+        
 	}
 	
 	private void createSubScenes() {
@@ -105,6 +128,8 @@ public class ViewManager {
 				@Override
 				public void handle(MouseEvent event) {
 					// TODO Auto-generated method stub
+					menuSFXPlayer.play();
+					menuSFXPlayer = new MediaPlayer(menuSFX);
 					for(ShipPicker ship: shipList) {
 						ship.setIsCircleChoosen(false);
 					}
@@ -136,6 +161,9 @@ public class ViewManager {
 	}
 	
 	private void showSubScene(SpaceRunnerSubScene subScene) {
+		menuSFXPlayer.play();
+		menuSFXPlayer = new MediaPlayer(menuSFX);
+		
 		if(sceneToHide != null) {
 			sceneToHide.moveSubScene();
 		}
@@ -150,7 +178,6 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
 				showSubScene(shipChooserSubScene);
 			}
 		});
@@ -162,7 +189,7 @@ public class ViewManager {
 		scoresButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(ActionEvent event) {
+			public void handle(ActionEvent event) {		
 				showSubScene(scoresSubScene);
 			}
 		});
@@ -175,7 +202,6 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
 				showSubScene(helpSubScene);
 			}
 		});
@@ -245,8 +271,11 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
+				menuSFXPlayer.play();
+				menuSFXPlayer = new MediaPlayer(menuSFX);
 				if(choosenShip != null) {
-					GameViewManager game = new GameViewManager();
+					GameViewManager game = new GameViewManager(menuMusicPlayer);
+					menuMusicPlayer.stop();
 					game.createNewGame(mainStage, choosenShip);
 				}
 				else {
