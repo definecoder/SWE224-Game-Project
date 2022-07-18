@@ -344,12 +344,12 @@ public class GameViewManager {
 				checkIfVerticalLaserCollided();
 				moveShip();
 				
-				if(isSpacePressed) {
-					shootBullet(angle);
-				}
-				if(bullet.isVisible()) {
-					moveBullet();
-				}
+//				if(isSpacePressed) {
+//					shootBullet(angle);
+//				}
+//				if(bullet.isVisible()) {
+//					moveBullet();
+//				}
 
 				
 				if(k == 0) showLight(laserX, laserY);
