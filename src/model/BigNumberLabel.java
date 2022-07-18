@@ -13,31 +13,32 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.text.Font;
 
-public class InfoLabel extends Label{
+public class BigNumberLabel extends Label{
 	public final static String FONT_PATH = "src/model/resources/kenvector_future.ttf";
 	public final static String BACKGROUND_IMAGE = "view/resources/yellow_small_panel.png";
 	
-	public InfoLabel(String text) {
+	public BigNumberLabel (String text) {
 		
 		setPrefWidth(380);
-		setPrefHeight(49);
+		setPrefHeight(380);
 		//setPadding(new Insets(40,40,40,40));
 		setText(text);
 		setWrapText(true);
-		setLabelFont(23);
+		setLabelFont();
 		setAlignment(Pos.CENTER);
 		
+		/*
 		BackgroundImage backgroundImage = new BackgroundImage(new Image(BACKGROUND_IMAGE, 380, 49, false, true), 
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
-		setBackground(new Background(backgroundImage));
+		setBackground(new Background(backgroundImage));*/
 		
 	}
 	
-	private void setLabelFont(int x) {
+	private void setLabelFont() {
 		try {
-			setFont(Font.loadFont(new FileInputStream(FONT_PATH), x));
+			setFont(Font.loadFont(new FileInputStream(FONT_PATH), 150));
 		} catch(FileNotFoundException e) {
-			setFont(Font.font("Verdana", x));
+			setFont(Font.font("Verdana", 150));
 		}
 	}
 }

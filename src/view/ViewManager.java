@@ -2,8 +2,11 @@ package view;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -20,11 +23,13 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.media.*;
+import model.BigNumberLabel;
 import model.InfoLabel;
 import model.SHIP;
 import model.ShipPicker;
 import model.SpaceRunnerButton;
 import model.SpaceRunnerSubScene;
+import model.TextLabel;
 
 
 
@@ -58,6 +63,9 @@ public class ViewManager {
 	static String MENU_MUSIC_PATH = "src/view/resources/menuBgMusic.mp3";
 	static String BUTTON_CLICK_PATH = "src/view/resources/click1.mp3";
 	
+	private String HIGH_SCORE;
+	private File scoreFile;
+	
 	public ViewManager() {
 		mainPane = new AnchorPane();
 		mainScene = new Scene(mainPane, WIDTH, HEIGHT);
@@ -68,7 +76,28 @@ public class ViewManager {
 		createButtons();
 		createLogo();
 		createBackground();
-		initMusicSFX();
+		initMusicSFX();		
+	}
+	
+	private void loadHighScore() {
+		try {
+			
+			scoreFile = new File("src/view/resources/score.txt");
+			
+			Scanner myReader = new Scanner(scoreFile);
+			
+			HIGH_SCORE = myReader.nextInt() + "";
+			//System.out.println("PRINTING IN LOAD HIGHSCORE: " + HIGH_SCORE);
+			
+			
+			
+			myReader.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			System.out.println("File Read Failed ");
+			
+		}
 	}
 	
 	public static void initMusicSFX() {
@@ -86,17 +115,89 @@ public class ViewManager {
 	}
 	
 	private void createSubScenes() {
+		
+		createCreditsSubScene();
+		
+		createHelpSubScene();
+		
+		createScoreSubScene();		
+		
+		createShipChooserSubScene();
+			
+	}
+	
+private void createCreditsSubScene() {
+		
 		creditSubScene = new SpaceRunnerSubScene();
 		mainPane.getChildren().add(creditSubScene);
+		
+		InfoLabel creditTitle = new InfoLabel("CREDITS");
+		creditTitle.setLayoutX(110);
+		creditTitle.setLayoutY(25);
+		
+		TextLabel intro = new TextLabel("THIS GAME WAS DEVELOPED BY :",
+				500, 50, 20);
+		intro.setLayoutX(55);
+		intro.setLayoutY(110);
+		
+		TextLabel shawon = new TextLabel("ABU MD ABDUL MAJID SHAWON",
+				500, 50, 20);
+		shawon.setLayoutX(55);
+		shawon.setLayoutY(170);
+		
+		TextLabel mehraj = new TextLabel("MD. MEHRAJUL ISLAM",
+				500, 50, 20);
+		mehraj.setLayoutX(55);
+		mehraj.setLayoutY(230);
+		
+		TextLabel ending = new TextLabel("FOR SWE 224 GAME PROJECT",
+				500, 50, 20);
+		ending.setLayoutX(55);
+		ending.setLayoutY(290);
+		
+		creditSubScene.getPane().getChildren().add(creditTitle);
+		creditSubScene.getPane().getChildren().add(intro);
+		creditSubScene.getPane().getChildren().add(shawon);
+		creditSubScene.getPane().getChildren().add(mehraj);
+		creditSubScene.getPane().getChildren().add(ending);
+
+	}
+	
+	private void createHelpSubScene() {
 		
 		helpSubScene = new SpaceRunnerSubScene();
 		mainPane.getChildren().add(helpSubScene);
 		
-		scoresSubScene = new SpaceRunnerSubScene();
-		mainPane.getChildren().add(scoresSubScene);
+		InfoLabel helpTitle = new InfoLabel("HOW TO PLAY");
+		helpTitle.setLayoutX(110);
+		helpTitle.setLayoutY(25);
 		
-		createShipChooserSubScene();
-			
+		TextLabel movementTitle = new TextLabel("USE ARROW KEYS TO MOVE THE PLANE",
+				500, 50, 20);
+		movementTitle.setLayoutX(55);
+		movementTitle.setLayoutY(110);
+		
+		TextLabel pointsTitle = new TextLabel("COLLECT STARS TO GAIN POINTS",
+				500, 50, 20);
+		pointsTitle.setLayoutX(55);
+		pointsTitle.setLayoutY(170);
+		
+		TextLabel eliminateTitle = new TextLabel("METIOR WILL DECREASE 1 LIFE",
+				500, 50, 20);
+		eliminateTitle.setLayoutX(55);
+		eliminateTitle.setLayoutY(230);
+		
+		TextLabel laserTitle = new TextLabel("LASER WILL END THE GAME",
+				500, 50, 20);
+		laserTitle.setLayoutX(55);
+		laserTitle.setLayoutY(290);
+		
+		helpSubScene.getPane().getChildren().add(helpTitle);
+		helpSubScene.getPane().getChildren().add(movementTitle);
+		helpSubScene.getPane().getChildren().add(pointsTitle);
+		helpSubScene.getPane().getChildren().add(eliminateTitle);
+		helpSubScene.getPane().getChildren().add(laserTitle);
+
 	}
 	
 	private void createShipChooserSubScene() {
@@ -113,6 +214,30 @@ public class ViewManager {
 		shipChooserSubScene.getPane().getChildren().add(createButtonToStart());
 		
 	}
+	
+	private void createScoreSubScene() {
+		
+		scoresSubScene = new SpaceRunnerSubScene();
+		mainPane.getChildren().add(scoresSubScene);
+		
+		
+		InfoLabel scoreTitle = new InfoLabel("YOUR HIGH SCORE");
+		scoreTitle.setLayoutX(110);
+		scoreTitle.setLayoutY(75);
+		
+		loadHighScore();
+		
+		BigNumberLabel scoreShow = new BigNumberLabel(HIGH_SCORE);
+		scoreShow.setLayoutX(125);
+		scoreShow.setLayoutY(45);
+		
+		scoresSubScene.getPane().getChildren().add(scoreTitle);
+		scoresSubScene.getPane().getChildren().add(scoreShow);
+		//shipChooserSubScene.getPane().getChildren().add(createShipToChoose());
+		//shipChooserSubScene.getPane().getChildren().add(createButtonToStart());
+		
+	}
+	
 	
 	private HBox createShipToChoose() {
 		HBox box = new HBox();
@@ -190,7 +315,8 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {		
-				showSubScene(scoresSubScene);
+				createScoreSubScene();
+				showSubScene(scoresSubScene);				
 			}
 		});
 	}

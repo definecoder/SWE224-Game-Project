@@ -2,7 +2,12 @@ package view;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.imageio.event.IIOReadWarningListener;
 import javax.sound.midi.MidiChannel;
@@ -87,6 +92,9 @@ public class GameViewManager {
 	String GAME_WARNING_PATH = "src/view/resources/alarm-small.mp3";
 	String GAME_POINT_PATH = "src/view/resources/point.mp3";
 	String GAME_COLLISION_PATH = "src/view/resources/collision.mp3";
+	
+	private File scoreFile;
+	private int highestScore;
 	
 	public GameViewManager(MediaPlayer menubgMusic) {
 		initializeStage();
@@ -568,6 +576,63 @@ public class GameViewManager {
         }
 	}
 	
+	private void saveScore() {
+		
+		scoreFile = new File("src/view/resources/score.txt");
+		
+		if(!scoreFile.exists()) {
+			try {
+				scoreFile.createNewFile();
+				
+				FileWriter myWriter = new FileWriter(scoreFile);
+				myWriter.write("0");
+				myWriter.close();
+				
+			} catch (IOException e) {
+				
+				System.out.println("FILE CREATION FAILED =<");
+				
+			}
+		}		
+		
+		try {
+			
+			Scanner myReader = new Scanner(scoreFile);
+			
+			highestScore = myReader.nextInt();
+			
+			myReader.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			System.out.println("File Read Failed ");
+			
+		}
+		
+		
+		if(highestScore < points) {
+			
+			scoreFile = new File("src/view/resources/score.txt");
+			
+			FileWriter myWriter;
+			
+			try {
+				
+				myWriter = new FileWriter(scoreFile);
+				myWriter.write(points+"");
+				myWriter.close();
+				
+			} catch (IOException e) {
+				
+				System.out.println("File Cannot be overriden");
+				
+			}
+			
+			
+		}
+		
+	
+	}
 	
 	private void removeLife() {
 		gamePane.getChildren().remove(playerLifes[playerLife]);
@@ -582,6 +647,7 @@ public class GameViewManager {
 			gameMusicPlayer.stop();
 			ViewManager.initMusicSFX();
 			menuStage.show();
+			saveScore();
 		}
 	}
 	
