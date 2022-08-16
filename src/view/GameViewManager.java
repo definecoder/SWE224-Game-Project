@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -61,8 +62,11 @@ public class GameViewManager {
 	private static final String BULLET_IMAGE = "view/resources/bullet.png";
 	
 	
-	private ImageView[] brownMeteors;
-	private ImageView[] greyMeteors;
+//	private ImageView[] brownMeteors;
+//	private ImageView[] greyMeteors;
+	
+	private ArrayList <ImageView> brownMeteors;
+	private ArrayList <ImageView> greyMeteors;
  	
 	private Random randomPositionGenerator;
 	
@@ -77,6 +81,10 @@ public class GameViewManager {
 	private ImageView[] playerLifes;
 	private int playerLife;
 	private int points;
+	private int numberOfBrownMeteors = 3;
+	private int numberOfGreyMeteors = 3;
+	
+	
 	private final static String GOLD_STAR_IMAGE = "view/resources/star_gold.png";
 	
 	// we will consider every objects as a circle
@@ -235,18 +243,23 @@ public class GameViewManager {
 		
 		
 		
-		brownMeteors = new ImageView[3];
-		for(int i = 0; i < brownMeteors.length; i++) {
-			brownMeteors[i] = new ImageView(METEOR_BROWN_IMAGE);
-			setNewElementPos(brownMeteors[i]);
-			gamePane.getChildren().add(brownMeteors[i]);
+		
+		
+		brownMeteors = new ArrayList<ImageView>();
+		for(int i = 0; i < numberOfBrownMeteors; i++) {
+			brownMeteors.add(new ImageView(METEOR_BROWN_IMAGE));
+			setNewElementPos(brownMeteors.get(i));
+			gamePane.getChildren().add(brownMeteors.get(i));
 		}
 		
-		greyMeteors = new ImageView[3];
-		for(int i = 0; i < greyMeteors.length; i++) {
-			greyMeteors[i] = new ImageView(METEOR_GREY_IMAGE);
-			setNewElementPos(greyMeteors[i]);
-			gamePane.getChildren().add(greyMeteors[i]);
+		greyMeteors = new ArrayList<ImageView>();
+		
+
+		
+		for(int i = 0; i < numberOfGreyMeteors; i++) {
+			greyMeteors.add(new ImageView(METEOR_GREY_IMAGE));
+			setNewElementPos(greyMeteors.get(i));
+			gamePane.getChildren().add(greyMeteors.get(i));
 		}
 		
 		stars = new ImageView[10];
@@ -268,14 +281,14 @@ public class GameViewManager {
 		}
 		
 		
-		for(int i = 0; i < brownMeteors.length; i++) {
-			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 7);
-			brownMeteors[i].setRotate(brownMeteors[i].getRotate() + 4);
+		for(int i = 0; i < brownMeteors.size(); i++) {
+			brownMeteors.get(i).setLayoutY(brownMeteors.get(i).getLayoutY() + 7);
+			brownMeteors.get(i).setRotate(brownMeteors.get(i).getRotate() + 4);
 		}
 		
-		for(int i = 0; i < greyMeteors.length; i++) {
-			greyMeteors[i].setLayoutY(greyMeteors[i].getLayoutY() + 7);
-			greyMeteors[i].setRotate(greyMeteors[i].getRotate() + 4);
+		for(int i = 0; i < greyMeteors.size(); i++) {
+			greyMeteors.get(i).setLayoutY(greyMeteors.get(i).getLayoutY() + 7);
+			greyMeteors.get(i).setRotate(greyMeteors.get(i).getRotate() + 4);
 		}
 	}
 	
@@ -288,15 +301,15 @@ public class GameViewManager {
 			}
 		}
 		
-		for(int i = 0; i < brownMeteors.length; i++) {
-			if(brownMeteors[i].getLayoutY() > 900) {
-				setNewElementPos(brownMeteors[i]);
+		for(int i = 0; i < brownMeteors.size(); i++) {
+			if(brownMeteors.get(i).getLayoutY() > 900) {
+				setNewElementPos(brownMeteors.get(i));
 			}
 		}
 		
-		for(int i = 0; i < greyMeteors.length; i++) {
-			if(greyMeteors[i].getLayoutY() > 900) {
-				setNewElementPos(greyMeteors[i]);
+		for(int i = 0; i < greyMeteors.size(); i++) {
+			if(greyMeteors.get(i).getLayoutY() > 900) {
+				setNewElementPos(greyMeteors.get(i));
 			}
 		}
 	}
@@ -544,6 +557,25 @@ public class GameViewManager {
 		}
 	}
 	
+	private void levelUp() {
+		
+		for(int i = numberOfBrownMeteors; i < numberOfBrownMeteors+5; i++) {
+			brownMeteors.add(new ImageView(METEOR_BROWN_IMAGE));
+			setNewElementPos(brownMeteors.get(i));
+			gamePane.getChildren().add(brownMeteors.get(i));
+		}
+		
+		for(int i = numberOfGreyMeteors; i < numberOfGreyMeteors+5; i++) {
+			greyMeteors.add(new ImageView(METEOR_GREY_IMAGE));
+			setNewElementPos(greyMeteors.get(i));
+			gamePane.getChildren().add(greyMeteors.get(i));
+		}
+		
+		numberOfBrownMeteors+=5;
+		numberOfGreyMeteors+=5;
+		
+	}
+	
 	private void checkIfElementCollided() {
 		
 		for(int i = 0; i < stars.length; i++) {
@@ -557,20 +589,35 @@ public class GameViewManager {
 					textToSet = textToSet + "0";
 				}
 				pointsLabel.setText(textToSet + points);
+				
+				if(points == 10) {
+					levelUp();
+					points++;
+				}
+				
+				if(points == 20) {
+					levelUp();
+					points++;
+				}
+				if(points == 30) {
+					levelUp();
+					points++;
+				}
+				
 			}
 		}
 		
 		
-		for(int i = 0; i < brownMeteors.length; i++) {
-			if(SHIP_RADIUS + METEOR_RADIUS > calculateDistance(ship.getLayoutX()+49, ship.getLayoutY() + 37, brownMeteors[i].getLayoutX()+20, brownMeteors[i].getLayoutY()+20)) {
-				setNewElementPos(brownMeteors[i]);
+		for(int i = 0; i < brownMeteors.size(); i++) {
+			if(SHIP_RADIUS + METEOR_RADIUS > calculateDistance(ship.getLayoutX()+49, ship.getLayoutY() + 37, brownMeteors.get(i).getLayoutX()+20, brownMeteors.get(i).getLayoutY()+20)) {
+				setNewElementPos(brownMeteors.get(i));
 				removeLife();
 			}
 		}
 		
-		for(int i = 0; i < greyMeteors.length; i++) {
-            if(SHIP_RADIUS + METEOR_RADIUS > calculateDistance(ship.getLayoutX()+49, ship.getLayoutY() + 37, greyMeteors[i].getLayoutX()+20, greyMeteors[i].getLayoutY()+20)) {
-                setNewElementPos(greyMeteors[i]);
+		for(int i = 0; i < greyMeteors.size(); i++) {
+            if(SHIP_RADIUS + METEOR_RADIUS > calculateDistance(ship.getLayoutX()+49, ship.getLayoutY() + 37, greyMeteors.get(i).getLayoutX()+20, greyMeteors.get(i).getLayoutY()+20)) {
+                setNewElementPos(greyMeteors.get(i));
                 removeLife();
             }
         }
