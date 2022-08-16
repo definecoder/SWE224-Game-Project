@@ -611,6 +611,10 @@ public class GameViewManager {
 					
 				}
 				
+				if(points == 12) {
+					gamePane.getChildren().remove(levelUpText);
+				}
+				
 				if(points == 20) {
 					levelUp();
 					points++;
@@ -618,11 +622,20 @@ public class GameViewManager {
 					showLevelUpMessage();
 	
 				}
+				
+				if(points == 22) {
+					gamePane.getChildren().remove(levelUpText);
+				}
+				
 				if(points == 30) {
 					levelUp();
 					points++;
 					
 					showLevelUpMessage();
+				}
+				
+				if(points == 32) {
+					gamePane.getChildren().remove(levelUpText);
 				}
 				
 			}
