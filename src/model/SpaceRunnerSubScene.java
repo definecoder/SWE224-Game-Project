@@ -13,7 +13,7 @@ import javafx.util.Duration;
 public class SpaceRunnerSubScene extends SubScene {
 
 	private final static String FONT_PATH = "src/model/resources/kenvector_future.ttf";
-	private final static String BACKGROUND_IMAGE = "model/resources/blue_panel.png";
+	private final static String BACKGROUND_IMAGE = "model/resources/red_panel.png";
 	
 	private boolean isHidden;
 	

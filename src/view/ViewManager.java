@@ -359,13 +359,13 @@ private void createCreditsSubScene() {
 	
 	
 	private void createBackground() {
-		Image backgroundImage = new Image("view/resources/darkPurple.png", 250, 250, false, true);
+		Image backgroundImage = new Image("view/resources/spaceBG.png", 1024, 768, false, false);
 		BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
 		mainPane.setBackground(new Background(background));
 	}
 	
 	private void createLogo() {
-		ImageView logo = new ImageView("view/resources/spacerunner.png");
+		ImageView logo = new ImageView("view/resources/logoMainMenu.png");
 		logo.setLayoutX(400);
 		logo.setLayoutY(50);
 		logo.setOnMouseEntered(new EventHandler<MouseEvent>() {

@@ -88,6 +88,7 @@ public class GameViewManager {
 	private int points;
 	private int numberOfBrownMeteors = 3;
 	private int numberOfGreyMeteors = 3;
+	private int meteorIncrease = 4;
 	
 	
 	private final static String GOLD_STAR_IMAGE = "view/resources/star_gold.png";
@@ -373,7 +374,7 @@ public class GameViewManager {
 				if(k == 0) showLight(laserX, laserY);
 				if(k == 100) hideLight();
 				if(k == 400) {
-					// keeping the laser more towards the centre
+					// keeping the laser more towards the center
 					laserX = 100 + randomPositionGenerator.nextInt(GAME_WIDTH - 200);  // 600
 					laserY = 100 + randomPositionGenerator.nextInt(GAME_HEIGHT - 200); // 800
 					showCaution(laserX, laserY);
@@ -564,20 +565,20 @@ public class GameViewManager {
 	
 	private void levelUp() {
 		
-		for(int i = numberOfBrownMeteors; i < numberOfBrownMeteors+4; i++) {
+		for(int i = numberOfBrownMeteors; i < numberOfBrownMeteors+meteorIncrease; i++) {
 			brownMeteors.add(new ImageView(METEOR_BROWN_IMAGE));
 			setNewElementPos(brownMeteors.get(i));
 			gamePane.getChildren().add(brownMeteors.get(i));
 		}
 		
-		for(int i = numberOfGreyMeteors; i < numberOfGreyMeteors+4; i++) {
+		for(int i = numberOfGreyMeteors; i < numberOfGreyMeteors+meteorIncrease; i++) {
 			greyMeteors.add(new ImageView(METEOR_GREY_IMAGE));
 			setNewElementPos(greyMeteors.get(i));
 			gamePane.getChildren().add(greyMeteors.get(i));
 		}
 		
-		numberOfBrownMeteors+=4;
-		numberOfGreyMeteors+=4;
+		numberOfBrownMeteors+=meteorIncrease;
+		numberOfGreyMeteors+=meteorIncrease;
 		
 	}
 	
