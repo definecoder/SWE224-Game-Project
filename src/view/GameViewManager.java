@@ -24,6 +24,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.SHIP;
 import model.SmallInfoLabel;
@@ -78,6 +81,8 @@ public class GameViewManager {
 	
 	
 	private SmallInfoLabel pointsLabel;
+	private SmallInfoLabel levelUpText;
+	
 	private ImageView[] playerLifes;
 	private int playerLife;
 	private int points;
@@ -576,6 +581,14 @@ public class GameViewManager {
 		
 	}
 	
+	
+	private void showLevelUpMessage() {
+		levelUpText = new SmallInfoLabel("Level Up!");
+		levelUpText.setLayoutY(GAME_HEIGHT/2);
+		levelUpText.setLayoutX(GAME_WIDTH/2 - levelUpText.getPrefWidth()/2);
+		gamePane.getChildren().add(levelUpText);
+	}
+	
 	private void checkIfElementCollided() {
 		
 		for(int i = 0; i < stars.length; i++) {
@@ -593,15 +606,23 @@ public class GameViewManager {
 				if(points == 10) {
 					levelUp();
 					points++;
+					
+					showLevelUpMessage();
+					
 				}
 				
 				if(points == 20) {
 					levelUp();
 					points++;
+					
+					showLevelUpMessage();
+	
 				}
 				if(points == 30) {
 					levelUp();
 					points++;
+					
+					showLevelUpMessage();
 				}
 				
 			}
