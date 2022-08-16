@@ -564,20 +564,20 @@ public class GameViewManager {
 	
 	private void levelUp() {
 		
-		for(int i = numberOfBrownMeteors; i < numberOfBrownMeteors+5; i++) {
+		for(int i = numberOfBrownMeteors; i < numberOfBrownMeteors+4; i++) {
 			brownMeteors.add(new ImageView(METEOR_BROWN_IMAGE));
 			setNewElementPos(brownMeteors.get(i));
 			gamePane.getChildren().add(brownMeteors.get(i));
 		}
 		
-		for(int i = numberOfGreyMeteors; i < numberOfGreyMeteors+5; i++) {
+		for(int i = numberOfGreyMeteors; i < numberOfGreyMeteors+4; i++) {
 			greyMeteors.add(new ImageView(METEOR_GREY_IMAGE));
 			setNewElementPos(greyMeteors.get(i));
 			gamePane.getChildren().add(greyMeteors.get(i));
 		}
 		
-		numberOfBrownMeteors+=5;
-		numberOfGreyMeteors+=5;
+		numberOfBrownMeteors+=4;
+		numberOfGreyMeteors+=4;
 		
 	}
 	
